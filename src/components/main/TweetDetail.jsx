@@ -1,7 +1,26 @@
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { ProfileImage } from "./ProfileImage"
+import { useEffect, useState } from "react"
+import { doc, collection, getDoc } from "firebase/firestore"
+import { db } from "../../services/firebaseConfig"
 
 export function TweetDetail() {
+  const { id } = useParams()
+  const [post, setPost] = useState({})
+
+  const getPost = async () => {
+    const collectionPosts = collection(db,'posts')
+    const docRef = doc(collectionPosts, id)
+
+    getDoc(docRef). then(post => {
+      setPost(post.data())
+    })
+  }
+
+  useEffect(() => {
+    getPost()
+  }, [])
+
   return (
     <div className="max-w-xl p-5 cursor-pointer dark:bg-slate-800 dark:border-slate-700 dark:text-white border-b border-x">
       <div className="grid grid-cols-[auto_1fr] gap-4 mb-4">
@@ -14,17 +33,15 @@ export function TweetDetail() {
       </div>
       <div className="grid grid-rows-[auto_1fr] gap-5">
         <div className="grid grid-cols-[auto_1fr] gap-5">
-          <Link to='/profile/24'><ProfileImage src='https://pbs.twimg.com/profile_images/1450284391964446720/fJ_cDXvP_400x400.jpg' /></Link>
+          <ProfileImage src={post.imagenPerfil} to={post.usuario} />
           <div>
-            <h1 className="font-bold">Nombre de usuario</h1>
-            <h5 className="text-gray-400">@usuario</h5>
+            <h1 className="font-bold">{post.nombre}</h1>
+            <h5 className="text-gray-400">@{post.usuario}</h5>
           </div>
         </div>
         <div className="max-w-xl">
           <div className="mb-4">
-            <p className="text-xl">Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus autem, tempora totam deserunt corporis molestiae rerum iure! Pariatur odit, fuga ratione commodi voluptates eius possimus repellat rem illum sint neque.
-              Illum dicta eaque, tenetur quis quos aut autem unde magni, fugit repellat libero. Illo, ut deleniti ipsam molestias corrupti consequatur dicta tempore, minima dolor nam quia animi ex quibusdam voluptates!
-              Voluptate fugiat velit consequuntur asperiores blanditiis, quibusdam minima cumque laudantium sed doloribus maiores in et atque odio neque vel nam ea architecto qui tempora aut, voluptatum maxime quisquam sequi! Sint.</p>
+            <p className="text-xl">{post.texto}</p>
           </div>
           <div className="flex flex-row place-content-around dark:text-slate-400">
             <span className="p-1 rounded-full dark:hover:bg-slate-700 hover:bg-slate-200 max-w-min">

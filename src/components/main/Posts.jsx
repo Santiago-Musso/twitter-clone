@@ -1,19 +1,16 @@
 import { Link } from "react-router-dom"
 import { ProfileImage } from "./ProfileImage"
 
-export function Posts() {
-  const postId = 24
+export function Posts({children}) {
   return (
-    <div className="max-w-xl p-2 cursor-pointer hover:bg-slate-100 dark:bg-slate-800 dark:border-slate-700 dark:text-white dark:hover:bg-slate-700/25 border-b border-r">
-      <Link to={`/post/${postId}`}>
+    <div className="max-w-xl p-2 cursor-pointer hover:bg-slate-100 dark:bg-slate-800 dark:border-slate-700 dark:text-white dark:hover:bg-slate-700/25 border-b border-r relative">
+      <Link className='absolute w-full h-full z-0' to={`/post/${children.id}`} />
         <div className="grid grid-cols-[auto_1fr] gap-5">
-        <ProfileImage src='https://pbs.twimg.com/profile_images/1450284391964446720/fJ_cDXvP_400x400.jpg' />
+        <ProfileImage src={children.imagenPerfil} to={children.usuario}/>
           <div className="max-w-xl">
             <div className="mb-4">
-              <h1 className="font-bold inline">Nombre de usuario</h1><h5 className="text-gray-400 inline ml-2">@usuario</h5>
-              <p className="text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus autem, tempora totam deserunt corporis molestiae rerum iure! Pariatur odit, fuga ratione commodi voluptates eius possimus repellat rem illum sint neque.
-                Illum dicta eaque, tenetur quis quos aut autem unde magni, fugit repellat libero. Illo, ut deleniti ipsam molestias corrupti consequatur dicta tempore, minima dolor nam quia animi ex quibusdam voluptates!
-                Voluptate fugiat velit consequuntur asperiores blanditiis, quibusdam minima cumque laudantium sed doloribus maiores in et atque odio neque vel nam ea architecto qui tempora aut, voluptatum maxime quisquam sequi! Sint.</p>
+              <h1 className="font-bold inline">{children.nombre}</h1><h5 className="text-gray-400 inline ml-2">@{children.usuario}</h5>
+              <p className="text-sm">{children.texto}</p>
             </div>
             <div className="grid grid-cols-4 dark:text-slate-400">
               <span className="p-1 rounded-full dark:hover:bg-slate-700 hover:bg-slate-200 max-w-min">
@@ -37,7 +34,6 @@ export function Posts() {
             </div>
           </div>
         </div>
-      </Link >
     </div>
   )
 }
