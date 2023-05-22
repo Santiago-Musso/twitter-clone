@@ -7,16 +7,27 @@ import { db } from "../../services/firebaseConfig"
 export function TweetDetail() {
   const { id } = useParams()
   const [post, setPost] = useState({})
+  const [user, setUser] = useState('')
+
+  const getUser = (uid) => {
+    const collectionUsers = collection(db,'users')
+    const docRef = doc(collectionUsers, uid)
+
+    getDoc(docRef). then(user => {
+      setUser(user.data())
+    })
+  }
 
   const getPost = async () => {
     const collectionPosts = collection(db,'posts')
     const docRef = doc(collectionPosts, id)
 
-    getDoc(docRef). then(post => {
+    await getDoc(docRef). then(post => {
       setPost(post.data())
+      getUser(post.data().user)
     })
   }
-
+  
   useEffect(() => {
     getPost()
   }, [])
@@ -33,15 +44,15 @@ export function TweetDetail() {
       </div>
       <div className="grid grid-rows-[auto_1fr] gap-5">
         <div className="grid grid-cols-[auto_1fr] gap-5">
-          <ProfileImage src={post.imagenPerfil} to={post.usuario} />
+          <ProfileImage src={user.photo} to={user.username} />
           <div>
-            <h1 className="font-bold">{post.nombre}</h1>
-            <h5 className="text-gray-400">@{post.usuario}</h5>
+            <h1 className="font-bold">{user.name}</h1>
+            <h5 className="text-gray-400">@{user.username}</h5>
           </div>
         </div>
         <div className="max-w-xl">
           <div className="mb-4">
-            <p className="text-xl">{post.texto}</p>
+            <p className="text-xl">{post.tweet}</p>
           </div>
           <div className="flex flex-row place-content-around dark:text-slate-400">
             <span className="p-1 rounded-full dark:hover:bg-slate-700 hover:bg-slate-200 max-w-min">

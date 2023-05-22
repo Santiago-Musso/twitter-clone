@@ -1,16 +1,16 @@
 import { Link } from "react-router-dom"
 import { ProfileImage } from "./ProfileImage"
 
-export function Posts({children}) {
+export function Posts(props) {
   return (
     <div className="max-w-xl p-2 cursor-pointer hover:bg-slate-100 dark:bg-slate-800 dark:border-slate-700 dark:text-white dark:hover:bg-slate-700/25 border-b border-r relative">
-      <Link className='absolute w-full h-full z-0' to={`/post/${children.id}`} />
+      <Link className='absolute w-full h-full z-0' to={`/post/${props.post.id}`} />
         <div className="grid grid-cols-[auto_1fr] gap-5">
-        <ProfileImage src={children.imagenPerfil} to={children.usuario}/>
+        <ProfileImage src={props.user.photo} to={props.user.username}/>
           <div className="max-w-xl">
             <div className="mb-4">
-              <h1 className="font-bold inline">{children.nombre}</h1><h5 className="text-gray-400 inline ml-2">@{children.usuario}</h5>
-              <p className="text-sm">{children.texto}</p>
+              <h1 className="font-bold inline">{props.user.name}</h1><h5 className="text-gray-400 inline ml-2">@{props.user.username}</h5>
+              <p className="text-sm">{props.post.tweet}</p>
             </div>
             <div className="grid grid-cols-4 dark:text-slate-400">
               <span className="p-1 rounded-full dark:hover:bg-slate-700 hover:bg-slate-200 max-w-min">

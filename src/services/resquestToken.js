@@ -4,5 +4,6 @@ import { provider } from "./googleProvider"
 
 export function requestToken(){
   const auth = getAuth(app)
+
   signInWithRedirect(auth, provider)
 }
