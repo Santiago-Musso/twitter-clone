@@ -35,6 +35,6 @@ useEffect(() => {
   getUsers()
 },[])
 
-return mainPosts.map(post => users.map(user => user.id === post.user ? <Posts key={post.id} user={user} post={post}></Posts> : false) )
+return mainPosts.map(post => users.map(user => user.id === post.user ? <Posts key={post.id} user={user} post={post} type='post'></Posts> : false) )
 
 }

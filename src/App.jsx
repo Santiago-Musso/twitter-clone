@@ -35,7 +35,8 @@ function App() {
             <Header user={user}/>
             <Routes>
               <Route exact path='/' element={<Main user={user} />} />
-              <Route exact path='/post/:id' element={<TweetDetail />} />
+              <Route exact path='/post/:id' element={<TweetDetail user={user} type='posts'/>} />
+              <Route exact path='/reply/:id' element={<TweetDetail user={user} type='replies'/>} />
             </Routes>
           </div>
         </div>

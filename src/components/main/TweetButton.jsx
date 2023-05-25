@@ -1,4 +1,4 @@
-import { collection, addDoc } from "firebase/firestore"
+import { collection, addDoc, doc, updateDoc, arrayUnion } from "firebase/firestore"
 import { db } from "../../services/firebaseConfig"
 
 export function TweetButton(props){
@@ -6,11 +6,23 @@ export function TweetButton(props){
     const user = props.user.uid
     const tweet = props.tweet
 
-    tweet !== '' 
-    ? addDoc(collection(db, 'posts'), {
-      user: user, 
-      tweet: tweet,
-    }).then(() => window.location.reload())
+    const updateTweet = async () => {
+      const docRef = await addDoc(collection(db, props.type), {
+        user: user, 
+        tweet: tweet,
+        timestamp: new Date(),
+        replies: [],
+        likes:0
+      })
+      
+      if(props.type === 'replies'){
+        const newTweetRef = doc(db, "posts", props.tweetID)
+        await updateDoc(newTweetRef, {replies: arrayUnion(docRef.id)})   
+      }
+    }
+
+    tweet !== '' ? 
+    updateTweet().then(() => window.location.reload())
     : false
   }
 

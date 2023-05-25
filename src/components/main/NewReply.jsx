@@ -2,13 +2,14 @@ import { useState } from 'react'
 import { ProfileImage } from './ProfileImage'
 import { TweetButton } from './TweetButton'
 
-export function NewTweet (props) {
+export function NewReply (props) {
   const [tweetText, setTweetText] = useState('')
 
   const handleChangeTweet = (e) => {
     const textRaw = e.target.value
     setTweetText(textRaw)
   }
+
   return props.user
     ?
       <div className="max-w-xl border-b border-r p-2 dark:bg-slate-800 dark:border-slate-700 dark:text-white">
@@ -16,9 +17,9 @@ export function NewTweet (props) {
           <ProfileImage src={props.user.photoURL} to={/^([^]+)@/.exec(props.user.email)[1]}/>
           <div className="max-w-xl">
             <div>
-              <textarea placeholder='Que esta pasando?' className="resize-none text-lg w-full dark:bg-slate-800" style={{ overflow: 'hidden' }} onChange={handleChangeTweet} value={tweetText} />
+              <textarea placeholder='Twittea tu respuesta' className="resize-none text-lg w-full dark:bg-slate-800" style={{ overflow: 'hidden' }} onChange={handleChangeTweet} value={tweetText} />
             </div>
-            <TweetButton user={props.user} tweet={tweetText} type='posts'/>
+            <TweetButton user={props.user} tweet={tweetText} type='replies' tweetID={props.tweetID}/>
           </div>
         </div>
       </div>
