@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import { ProfileImage } from "./ProfileImage"
+import { LikeButton } from "./LikeButton"
 
 export function Posts(props) {
   return (
@@ -24,11 +25,7 @@ export function Posts(props) {
                   <path fill="currentColor" d="M2.511 2c.021 0 .042.002.063.005l.031.006.046.012.04.015a.494.494 0 01.093.05l.018.014c.014.01.027.02.04.033l2.012 2.011a.5.5 0 01-.638.765l-.07-.057L3 3.707V7.5a1.5 1.5 0 001.356 1.493L4.5 9H6a.5.5 0 01.09.992L6 10H4.5a2.5 2.5 0 01-2.495-2.336L2 7.5V3.707L.854 4.854a.5.5 0 01-.765-.638l.057-.07L2.16 2.135l.019-.017.01-.009-.042.037.047-.041.04-.028a.52.52 0 01.162-.066l.036-.006L2.5 2h.011zM7.5 2A2.5 2.5 0 0110 4.5v3.792l1.146-1.146a.5.5 0 01.765.638l-.057.07-2 2-.013.011a.503.503 0 01-.039.033l.052-.044A.502.502 0 019.5 10l.072-.005A.503.503 0 019.52 10H9.5a.509.509 0 01-.284-.089l-.018-.013a.503.503 0 01-.04-.033l-.012-.011-2-2a.5.5 0 01.638-.765l.07.057L9 8.292V4.5a1.5 1.5 0 00-1.356-1.493L7.5 3H6a.5.5 0 010-1zm-5.302.102l-.005.003-.005.004.01-.007zm.239-.098l-.006.001h-.005l.011-.001zm.014-.002l-.014.002.01-.001.004-.001zM2.5 2l-.049.002A.868.868 0 012.489 2H2.5z" />
                 </svg>
               </span> */}
-              <span className="p-1 rounded-full hover:bg-red-500/30 max-w-min z-20">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 hover:text-red-500">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                </svg>
-              </span>
+              <LikeButton/>
               {/* //Boton de Guardados
               <span className="p-1 rounded-full hover:bg-blue-800/20 max-w-min">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 hover:text-blue-500"><path strokeLinecap="round" strokeLinejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"></path></svg>

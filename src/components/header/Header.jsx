@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom"
 import { requestToken } from '../../services/resquestToken'
-import { useEffect, useState } from "react"
 import { logOut } from "../../services/requestLogOut"
+import { useContext } from "react"
+import { UserContext } from "../../context/userContext"
 
-export default function Header(props) {
-  const [isAuth, setIsAuth] = useState(false)
+export default function Header() {
+  const user = useContext(UserContext)
 
   const handleDarkMode = () => {
     const darkThemeButton = document.getElementById('dark-theme-button')
@@ -15,10 +16,6 @@ export default function Header(props) {
     lightThemeButton.classList.toggle('hidden')
     darkThemeButton.classList.toggle('hidden')
   }
-
-  useEffect(()=>{
-    props.user != null ? setIsAuth(true) : setIsAuth(false)
-  }, [props.user]) 
 
   return (
     <div className="object-contain sticky top-0 z-50 dark:bg-slate-800 dark:text-white">
@@ -33,7 +30,7 @@ export default function Header(props) {
             </Link>
           </li>
         {
-          isAuth ?
+          user !== null ?
           <>
             <li>
               <Link to='/'>

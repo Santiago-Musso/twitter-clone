@@ -1,51 +1,12 @@
 import { Link, useParams } from "react-router-dom"
 import { ProfileImage } from "./ProfileImage"
-import { useEffect, useState } from "react"
-import { doc, collection, getDoc } from "firebase/firestore"
-import { db } from "../../services/firebaseConfig"
 import { RepliesList } from "./RepliesList"
 import { NewReply } from "./NewReply"
+import { usePosts } from "../../hooks/usePosts"
 
-export function TweetDetail(props) {
+export function TweetDetail({ type }) {
   const { id } = useParams()
-  const [post, setPost] = useState({})
-  const [user, setUser] = useState('')
-  const [replies, setReplies] = useState([])
-
-  const getUser = async (uid) => {
-    const collectionUsers = collection(db,'users')
-    const docRef = doc(collectionUsers, uid)
-
-    getDoc(docRef).then(user => {
-      setUser(user.data())
-    })
-  }
-
-  const getPost = async () => {
-    const collectionPosts = collection(db,props.type)
-    const docRef = doc(collectionPosts, id)
-
-    await getDoc(docRef). then(post => {
-      setPost(post.data())
-      getUser(post.data().user)
-      setReplies(post	.data().replies)
-    })
-  }
-
-  const setTweetTime = (timestamp) => {
-    const options = {
-      hour: 'numeric',
-      minute: 'numeric',
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric'
-    }
-    return timestamp.toDate().toLocaleDateString('es-ES', options)
-  } 
-  
-  useEffect(() => {
-    getPost()
-  }, [id])
+  const { post, user, replies, timestamp } = usePosts(type, id)
 
   return (
     <div className="max-w-xl cursor-pointer dark:bg-slate-800 dark:border-slate-700 dark:text-white border-l">
@@ -71,7 +32,7 @@ export function TweetDetail(props) {
               <p className="text-xl">{post.tweet}</p>
             </div>
             <div>
-              <h6 className="text-sm text-gray-400 p-2">{post.timestamp ? setTweetTime(post.timestamp) : false}</h6>
+              <h6 className="text-sm text-gray-400 p-2">{timestamp}</h6>
             </div>
             <div className="border-t p-1 dark:bg-slate-800 dark:border-slate-700 flex flex-row gap-3">
               <div className="flex flex-row text-gray-400 gap-1"><h4 className="text-black dark:text-white font-semibold">{replies.length}</h4>Comentarios</div>
@@ -105,8 +66,8 @@ export function TweetDetail(props) {
         </div>
       </div>
       <div className="border-t dark:bg-slate-800 dark:border-slate-700 dark:text-white ">
-        <NewReply user={props.user} tweetID={id}/>
-        <RepliesList replies={replies}/>
+        <NewReply/>
+        <RepliesList repliesID={replies}/>
       </div>
     </div>
   )

@@ -1,25 +1,29 @@
 import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { ProfileImage } from './ProfileImage'
 import { TweetButton } from './TweetButton'
+import { useUser } from '../../hooks/useUser'
 
-export function NewReply (props) {
+export function NewReply() {
   const [tweetText, setTweetText] = useState('')
+  const user = useUser()
+  const { id } = useParams()
 
   const handleChangeTweet = (e) => {
     const textRaw = e.target.value
     setTweetText(textRaw)
   }
 
-  return props.user
+  return user
     ?
       <div className="max-w-xl border-b border-r p-2 dark:bg-slate-800 dark:border-slate-700 dark:text-white">
         <div className="grid grid-cols-[auto_1fr] gap-5">
-          <ProfileImage src={props.user.photoURL} to={/^([^]+)@/.exec(props.user.email)[1]}/>
+          <ProfileImage src={user.photoURL} to={/^([^]+)@/.exec(user.email)[1]}/>
           <div className="max-w-xl">
             <div>
               <textarea placeholder='Twittea tu respuesta' className="resize-none text-lg w-full dark:bg-slate-800" style={{ overflow: 'hidden' }} onChange={handleChangeTweet} value={tweetText} />
             </div>
-            <TweetButton user={props.user} tweet={tweetText} type='replies' tweetID={props.tweetID}/>
+            <TweetButton tweet={tweetText} type='replies' replyTweetID={id}/>
           </div>
         </div>
       </div>
