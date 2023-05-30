@@ -9,6 +9,8 @@ export function NewReply() {
   const user = useUser()
   const { id } = useParams()
 
+
+  //Setea el estado de la nueva respuesta
   const handleChangeTweet = (e) => {
     const textRaw = e.target.value
     setTweetText(textRaw)

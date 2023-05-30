@@ -16,7 +16,7 @@ export function useUser () {
         await setDoc(doc(db, "users", userLog.uid), {
           name: userLog.displayName,
           username: /^([^]+)@/.exec(userLog.email)[1],
-          photo: userLog.photoURL
+          photo: userLog.photoURL,
         })
       } else {
         setUser(null)

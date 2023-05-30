@@ -3,27 +3,27 @@ import { db } from "../../services/firebaseConfig"
 import { useContext } from "react"
 import { UserContext } from "../../context/userContext"
 
-export function TweetButton(props){
+export function TweetButton({type, tweet, replyTweetID}){
   const user = useContext(UserContext)
 
   const sendTweet = async() => {
-
     const updateTweet = async () => {
-      const docRef = await addDoc(collection(db, props.type), {
+      //Guarda un nuevo tweet dependiendo el tipo
+      const docRef = await addDoc(collection(db, type), {
         user: user.uid, 
-        tweet: props.tweet,
+        tweet: tweet,
         timestamp: new Date(),
         replies: [],
-        likes:0
+        likes:[]
       })
-
-      if(props.type === 'replies'){
-        const newTweetRef = doc(db, "posts", props.replyTweetID)
+      // Si es del tipo replies tambien lo guarda en el post donde se hizo
+      if(type === 'replies'){
+        const newTweetRef = doc(db, "posts", replyTweetID)
         await updateDoc(newTweetRef, {replies: arrayUnion(docRef.id)})   
       }
     }
-
-    props.tweet !== '' ? 
+    //Dependiendo si el tweet esta vacio ejecuta la funcion
+    tweet !== '' ? 
     updateTweet().then(() => window.location.reload())
     : false
   }

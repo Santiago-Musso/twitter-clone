@@ -6,7 +6,7 @@ export function RepliesList({ repliesID }){
 return (
   repliesID ?
    repliesID.map(replyProps => replies.map(reply => users.map(user => user.id === reply.user && replyProps == reply.id ?
-    <Posts key={reply.id} user={user} post={reply} type='reply'/> : false))) : false
+    <Posts key={reply.id} user={user} post={reply} type='replies'/> : false))) : false
 )
 
 }

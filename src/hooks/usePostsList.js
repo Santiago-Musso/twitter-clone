@@ -14,6 +14,9 @@ export function usePostsLists() {
       const postData = {id: doc.id, ...doc.data()}
       postList.push(postData)
     })
+    postList.sort(function(a, b){
+      return b.timestamp.seconds - a.timestamp.seconds
+    })
     setMainPosts(postList)  
   }
 
@@ -31,7 +34,7 @@ export function usePostsLists() {
     getUsers()
   }, [])
 
-  return{
+return{
     mainPosts,
     users
   }

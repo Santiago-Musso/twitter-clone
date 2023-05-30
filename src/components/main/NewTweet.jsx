@@ -7,6 +7,7 @@ export function NewTweet () {
   const [tweetText, setTweetText] = useState('')
   const user = useContext(UserContext)
 
+  //Setea el estado del nuevo tweet
   const handleChangeTweet = (e) => {
     const textRaw = e.target.value
     setTweetText(textRaw)

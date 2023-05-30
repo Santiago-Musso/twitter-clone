@@ -18,7 +18,7 @@ export default function Header() {
   }
 
   return (
-    <div className="object-contain sticky top-0 z-50 dark:bg-slate-800 dark:text-white">
+    <div className="object-contain sticky top-0 h-min z-50 dark:bg-slate-800 dark:text-white">
       <ul className="max-w-min m-auto">
           <li>
             <Link to='/'>

@@ -14,7 +14,9 @@ export function useRepliesLists() {
       const postData = {id: doc.id, ...doc.data()}
       replyList.push(postData)
     })
-    
+    replyList.sort(function(a, b){
+      return b.timestamp.seconds - a.timestamp.seconds
+    })
     setReplies(replyList)
   }
 

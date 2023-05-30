@@ -10,20 +10,19 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div id='app'>
+      <div id='app' className='w-full h-full dark:bg-slate-800'>
         <div className='w-screen h-screen dark:bg-slate-800'>
           <div className='grid grid-cols-[0.3fr_0.7fr]'>
             <Header/>
             <Routes>
               <Route exact path='/' element={<Main/>} />
-              <Route exact path='/post/:id' element={<TweetDetail type='posts'/>} />
-              <Route exact path='/reply/:id' element={<TweetDetail type='replies'/>} />
+              <Route exact path='/posts/:id' element={<TweetDetail type='posts'/>} />
+              <Route exact path='/replies/:id' element={<TweetDetail type='replies'/>} />
             </Routes>
           </div>
         </div>
       </div>
     </BrowserRouter>
-
   )
 }
 
