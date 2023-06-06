@@ -2,21 +2,23 @@ import { db } from "../../services/firebaseConfig"
 import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore"
 import { useUser } from "../../hooks/useUser"
 import { useEffect, useState } from "react"
-let i = 0
 
-export function LikeButton ({ id, type, likes=[]}){
+export function LikeButton ({ id, type, likes}){
   const [like, setLike] = useState({stroke:'currentColor', fill:'none',isLiked : false})
   const user = useUser()
+
   useEffect(()=> {
     //Setea los likes en los posts segun el usuario loggeado
-    user ?
-      likes.map(userLikeID => {
-        if(userLikeID === user.uid){
-          setLike({fill: '#ef4444', stroke:'#ef4444',isLiked : true})
-        }
-      })
-      :
-      false
+    //si no hay usuario borra los likes
+    if (user && likes) {
+      if(likes.includes(user.uid)){
+        setLike({fill: '#ef4444', stroke:'#ef4444',isLiked : true})
+      }else{
+        setLike({stroke:'currentColor', fill:'none',isLiked : false})
+      }
+    }else if (!user){
+      setLike({stroke:'currentColor', fill:'none',isLiked : false})
+    }
   }, [user, likes])
 
   const handleLikeClick = async () => {
@@ -24,11 +26,11 @@ export function LikeButton ({ id, type, likes=[]}){
     //Si esta likeado le quita el like y lo saca de la bdd
     if(!like.isLiked){
       const likeTweetRef = doc(db, type, id)
-      await updateDoc(likeTweetRef, {likes: arrayUnion(user.uid)})
+      await updateDoc(likeTweetRef, { likes: arrayUnion(user.uid) })
       setLike({fill: '#ef4444', stroke:'#ef4444',isLiked : true})  
     }else if(like.isLiked){
       const likeTweetRef = doc(db, type, id)
-      await updateDoc(likeTweetRef, {likes: arrayRemove(user.uid)})
+      await updateDoc(likeTweetRef, { likes: arrayRemove(user.uid) })
       setLike({fill: 'none', stroke:'currentColor',isLiked : false})
     }
   }

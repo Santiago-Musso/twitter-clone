@@ -17,6 +17,7 @@ export function useUser () {
           name: userLog.displayName,
           username: /^([^]+)@/.exec(userLog.email)[1],
           photo: userLog.photoURL,
+          createdAt: userLog.metadata.createdAt
         })
       } else {
         setUser(null)

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { collection, getDocs} from "firebase/firestore"
-import { db } from '../services/firebaseConfig'
+import { db, storage } from '../services/firebaseConfig'
+import { getDownloadURL, ref } from "firebase/storage"
 
 export function usePostsLists() {
   const [mainPosts, setMainPosts] = useState([])
@@ -10,10 +11,22 @@ export function usePostsLists() {
     const querySnapshot = await getDocs(collection(db, 'posts'))
     const postList = []
 
-    querySnapshot.forEach(doc => {
-      const postData = {id: doc.id, ...doc.data()}
-      postList.push(postData)
-    })
+    for(const doc of querySnapshot.docs){
+      const rawData = doc.data()
+      if(rawData.pics){
+        postList.push({
+            id: doc.id,
+            ...rawData,
+            picURL : await getDownloadURL(ref(storage, `pics/${doc.id}`))
+        })
+      }else if(!rawData.pics){
+        postList.push({
+          id: doc.id,
+          ...rawData
+        })
+      }
+    }
+
     postList.sort(function(a, b){
       return b.timestamp.seconds - a.timestamp.seconds
     })

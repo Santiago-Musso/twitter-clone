@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { collection, getDocs } from "firebase/firestore"
-import { db } from '../services/firebaseConfig'
+import { db, storage } from '../services/firebaseConfig'
+import { getDownloadURL, ref } from "firebase/storage"
 
 export function useRepliesLists() {
   const [users, setUsers] = useState([])
@@ -10,8 +11,16 @@ export function useRepliesLists() {
     const querySnapshot = await getDocs(collection(db, 'replies'))
     const replyList = []
 
-    querySnapshot.forEach(doc => {
-      const postData = {id: doc.id, ...doc.data()}
+    querySnapshot.forEach(async doc => {
+      const dataRaw = doc.data()
+      let postData = {}
+
+      if(dataRaw.pics){
+        const picURL = await getDownloadURL(ref(storage, `pics/${doc.id}`))
+        postData = {id: doc.id, ...dataRaw, picURL: picURL}
+      }else if(!dataRaw.pics){
+        postData = {id: doc.id, ...dataRaw}
+      }
       replyList.push(postData)
     })
     replyList.sort(function(a, b){

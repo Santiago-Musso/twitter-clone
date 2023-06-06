@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react"
 import { db } from "../services/firebaseConfig"
 import { getDoc, collection, doc } from "firebase/firestore"
+import { storage } from "../services/firebaseConfig"
+import { getDownloadURL, ref } from "firebase/storage"
 
 export function usePosts(type='replies', id) {
   const [post, setPost] = useState({})
@@ -13,7 +15,7 @@ export function usePosts(type='replies', id) {
     const docRef = doc(collectionUsers, uid)
 
     getDoc(docRef).then(user => {
-      setUser(user.data())
+      setUser({...user.data(), id: user.id})
     })
   }
 
@@ -21,11 +23,21 @@ export function usePosts(type='replies', id) {
     const collectionPosts = collection(db,type)
     const docRef = doc(collectionPosts, id)
 
-    await getDoc(docRef). then(post => {
-      setPost(post.data())
-      getUser(post.data().user)
-      setReplies(post.data().replies)
-      setTimestamp(setTweetTime(post.data().timestamp))
+    await getDoc(docRef).then(async post => {
+      const dataRaw = post.data()
+
+      if(dataRaw.pics){
+        const picURL = await getDownloadURL(ref(storage, `pics/${post.id}`))
+        setPost({...dataRaw, picURL: picURL})
+        getUser(dataRaw.user)
+        setReplies(dataRaw.replies)
+        setTimestamp(setTweetTime(dataRaw.timestamp))
+      }else if(!dataRaw.pics){
+        setPost({...dataRaw})
+        getUser(dataRaw.user)
+        setReplies(dataRaw.replies)
+        setTimestamp(setTweetTime(dataRaw.timestamp))
+      }
     })
   }
 
