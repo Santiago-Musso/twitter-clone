@@ -9,8 +9,7 @@ const firebaseConfig = {
   storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
   messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
   appId: import.meta.env.VITE_APP_ID,
-  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
-  redirectURI: import.meta.env.VITE_REDIRECT_URI
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET
 }
 
 export const app = initializeApp(firebaseConfig)
