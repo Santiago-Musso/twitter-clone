@@ -23,7 +23,7 @@ export function useUser () {
       } else {
         setUser(null)
       }
-    })
+    }, (error) => console.error(error))
   }, [])
 
   return user
