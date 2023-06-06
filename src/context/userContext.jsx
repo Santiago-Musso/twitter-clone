@@ -4,7 +4,7 @@ import { useUser } from '../hooks/useUser'
 export const UserContext = createContext(null)
 
 export function UserProvider({ children }) {
-
+//Que paso ahora
   const user = useUser()
 
   return (
