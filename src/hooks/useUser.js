@@ -10,6 +10,7 @@ export function useUser () {
   
   useEffect(() => {
     onAuthStateChanged(auth, async(userLog) => {
+      
       if (userLog) {
         setUser(userLog)
         
