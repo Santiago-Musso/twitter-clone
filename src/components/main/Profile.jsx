@@ -11,7 +11,7 @@ export default function Profile(){
   const [inPosts, setInPosts] = useState(true)
   const { users } = usePostsLists()
 
-  console.log(userPostsLiked, userRepliesLiked)
+  console.log(user)
 
   const setTimestamp = (timestamp) => {
     const userCreatedAt = new Date(Number(timestamp))

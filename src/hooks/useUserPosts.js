@@ -83,7 +83,7 @@ export function useUserPosts(userID) {
     const docRef = doc(collectionUsers, userID)
 
     getDoc(docRef).then(user => {
-      setUser(user.data())
+      setUser({...user.data(), id: user.id})
     })
   }
 
